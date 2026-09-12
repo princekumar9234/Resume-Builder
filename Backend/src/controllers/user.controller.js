@@ -72,7 +72,7 @@ export async function UserLogin(req, res) {
   const hashPassword = crypto
     .createHash("sha256")
     .update(password)
-    .digest(" hex");
+    .digest("hex");
 
   const isValidPassowrd = hashPassword === user.password;
 
@@ -112,4 +112,52 @@ export async function UserLogin(req, res) {
       expiresIn: "15m",
     },
   );
+
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: config.NODE_ENV,
+    sameSite: "strict",
+    maxAge: 7 * 24 * 60 * 60 * 100, //7d
+  });
+
+  res.status(200).json({
+    message: "Logged in Successfully",
+    user: {
+      username: user.username,
+      email: user.email,
+    },
+    accessToken,
+  });
+}
+
+export async function emailVerify(req, res) {
+  const { email, otp } = req.body;
+
+  const otpHash = crypto.createHash("sha256").update(otp).digest("hex");
+
+  const otpDoc = await otpModel.findOne({
+    email,
+    otpHash,
+  });
+
+  if (!otpDoc) {
+    return res.status(400).json({ message: "Invalid OTP !" });
+  }
+
+  const user = await userModel.findByIdAndUpdate(otpDoc.user, {
+    verified: true
+  }, { new: true });
+
+  await otpModel.deleteMany({
+    user: otpDoc.user,
+  });
+
+  return res.status(200).json({
+    message: "Email Verified Successfully!",
+    user: {
+      username: user.username,
+      email: user.email,
+      verified: user.verified,
+    },
+  });
 }

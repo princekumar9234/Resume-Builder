@@ -32,6 +32,9 @@ if(!process.env.NODE_ENV) {
 throw new Error("NODE_ENV is not found in env");
 }
 
+if(!process.env.FRONTEND_URL) {
+  throw new Error("FRONTEND_URL is not found in env");
+}
 const config = {
   PORT: process.env.PORT,
   MONGO_URI: process.env.MONGO_URI,
@@ -41,6 +44,8 @@ const config = {
   GOOGLE_REFRESH_TOKEN: process.env.GOOGLE_REFRESH_TOKEN,
   JWT_SECRECT: process.env.JWT_SECRET,
   NODE_ENV: process.env.NODE_ENV,
+  FRONTEND_URL: process.env.FRONTEND_URL
+
 };
 
 export default config;

@@ -12,7 +12,7 @@ const sessionSchema = new mongoose.Schema(
     },
     ip: {
       type: String,
-      requiered: [true, "IP address is required"],
+      required: [true, "IP address is required"],
     },
     userAgent: {
       type: String,

@@ -1,6 +1,7 @@
 import userModel from "../models/user.model.js";
 import { generateOTP, getOtpHtml } from "../utils/utils.js";
 import { sendEmail } from "../services/email.services.js";
+import bcrypt from "bcrypt";
 import crypto from "crypto";
 import otpModel from "../models/otp.model.js";
 import jwt from "jsonwebtoken";
@@ -10,18 +11,27 @@ import sessionModel from "../models/session.model.js";
 export async function userRegister(req, res) {
   const { username, email, password } = req.body;
 
+  if (!username || !email || !password) {
+    return res
+      .status(400)
+      .json({ message: "Username, email and password are required!" });
+  }
+
   const checkUser = await userModel.findOne({
     $or: [{ username }, { email }],
   });
 
   if (checkUser) {
-    return res.status(400).json({ message: "User already exists!" });
+    if (checkUser.email === email) {
+      return res.status(400).json({ message: " Email already exists!" });
+    }
+
+    if (checkUser.username === username) {
+      return res.status(400).json({ message: "Username already exists!" });
+    }
   }
 
-  const hashPassword = crypto
-    .createHash("sha256")
-    .update(password)
-    .digest("hex");
+  const hashPassword = await bcrypt.hash(password, 12);
 
   const user = await userModel.create({
     username,
@@ -56,8 +66,12 @@ export async function userRegister(req, res) {
 export async function UserLogin(req, res) {
   const { email, password } = req.body;
 
+  if (!email || !password) {
+    return res
+      .status(400)
+      .json({ message: "Valid email and password are required!" });
+  }
   const user = await userModel.findOne({ email });
-
   if (!user) {
     return res.status(404).json({ message: "User not found!" });
   }
@@ -69,12 +83,7 @@ export async function UserLogin(req, res) {
     });
   }
 
-  const hashPassword = crypto
-    .createHash("sha256")
-    .update(password)
-    .digest("hex");
-
-  const isValidPassowrd = hashPassword === user.password;
+  const isValidPassowrd = await bcrypt.compare(password, user.password);
 
   if (!isValidPassowrd) {
     return res.status(400).json({ message: "Invalid password!" });
@@ -115,9 +124,9 @@ export async function UserLogin(req, res) {
 
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    secure: config.NODE_ENV,
+    secure: config.NODE_ENV === "production",
     sameSite: "strict",
-    maxAge: 7 * 24 * 60 * 60 * 100, //7d
+    maxAge: 7 * 24 * 60 * 60 * 1000, //7d
   });
 
   res.status(200).json({
@@ -144,9 +153,13 @@ export async function emailVerify(req, res) {
     return res.status(400).json({ message: "Invalid OTP !" });
   }
 
-  const user = await userModel.findByIdAndUpdate(otpDoc.user, {
-    verified: true
-  }, { new: true });
+  const user = await userModel.findByIdAndUpdate(
+    otpDoc.user,
+    {
+      verified: true,
+    },
+    { new: true },
+  );
 
   await otpModel.deleteMany({
     user: otpDoc.user,

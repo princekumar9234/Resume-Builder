@@ -7,6 +7,7 @@ import otpModel from "../models/otp.model.js";
 import jwt from "jsonwebtoken";
 import config from "../config/config.js";
 import sessionModel from "../models/session.model.js";
+import { decode } from "punycode";
 
 export async function userRegister(req, res) {
   const { username, email, password } = req.body;
@@ -111,7 +112,7 @@ export async function UserLogin(req, res) {
 
     const session = await sessionModel.create({
       user: user._id,
-      refreshToken: refreshTokenHash,
+      refreshTokenHash,
       ip: req.ip,
       userAgent: req.headers["user-agent"],
     });
@@ -146,6 +147,34 @@ export async function UserLogin(req, res) {
     console.error("Error during login:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
+}
+
+export async function userLogout(req, res) {
+  const refreshToken = req.cookies.refreshToken;
+
+  if (!refreshToken) {
+    return res.status(400).json({ message: "RefreshToken not found!" });
+  }
+  const refreshTokenHash = crypto
+    .createHash("sha256")
+    .update(refreshToken)
+    .digest("hex");
+
+  const session = await sessionModel.findOne({
+    refreshTokenHash,
+    revoked: false,
+  });
+
+  if (!session) {
+    return res.status(400).json({ message: "Invalid RefreshToken" });
+  }
+
+  session.revoked = true;
+  await session.save();
+
+  res.clearCookie("refreshToken");
+
+  res.status(200).json({ message: "User LogOut Successfully!" });
 }
 
 export async function emailVerify(req, res) {
@@ -189,4 +218,89 @@ export async function emailVerify(req, res) {
   }
 }
 
+export async function userGetMe(req, res) {
+  try {
+    const user = await userModel.findById(req.user.id);
 
+    if (!user) {
+      return res.status(400).json({ message: " User not Found!" });
+    }
+
+    return res.status(200).json({
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+export async function genRefreshToken(req, res) {
+  const refreshToken = req.cookies.refreshToken;
+
+  try {
+    if (!refreshToken) {
+      return res.status(401).json({ message: "Unauthorized access" });
+    }
+
+    const decoded = jwt.verify(refreshToken, config.JWT_SECRECT);
+
+    const refreshTokenHash = crypto
+      .createHash("sha256")
+      .update(refreshToken)
+      .digest("hex");
+
+    const session = await sessionModel.findOne({
+      refreshTokenHash,
+      revoked: false,
+    });
+
+    if (!session) {
+      return res.status(401).json({
+        message: "Invalid refreshToken",
+      });
+    }
+
+    const accessToken = jwt.sign(
+      {
+        id: decoded.id,
+      },
+      config.JWT_SECRECT,
+      {
+        expiresIn: "15min",
+      },
+    );
+
+    const newRefreshToken = jwt.sign(
+      {
+        id: decoded.id,
+      },
+      config.JWT_SECRECT,
+      {
+        expiresIn: "7d",
+      },
+    );
+
+    const newRefreshTokenHash = crypto
+      .createHash("sha256")
+      .update(newRefreshToken)
+      .digest("hex");
+
+    session.refreshTokenHash = newRefreshTokenHash;
+    await session.save();
+
+    res.cookie("refreshToken", newRefreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+  } catch (error) {
+    res.status(200).json({ message: "AccessToken is refreshToken" });
+    console.log(error);
+  }
+}

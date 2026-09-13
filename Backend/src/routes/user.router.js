@@ -2,6 +2,7 @@ import { Router } from "express";
 import * as userController from "../controllers/user.controller.js";
 import { authLimiter } from "../middleware/rateLimit.middleware.js";
 import { validateUser } from "../middleware/validation.middleware.js";
+import { userAuth } from "../middleware/userToken.middleware.js";
 
 const userRouter = Router();
 
@@ -31,13 +32,18 @@ userRouter.post(
 userRouter.post("/login", authLimiter, validateUser, userController.UserLogin);
 
 /**
+ *  userLogout GET API localhost:3000/user/logout
+ * @description logout for devices
+ */
+userRouter.get("/logout", authLimiter, validateUser, userController.userLogout);
+
+/**
  * UserLogout POST API  localhost:3000/user/emailVerify
  * @param {string} email - The email of the user.
  * @param {string} otp - The OTP code.
  * @returns {object} 200 - Email verified successfully.
  * @returns {object} 400 - Invalid OTP.
  */
-
 userRouter.post(
   "/emailVerify",
   authLimiter,
@@ -45,4 +51,11 @@ userRouter.post(
   userController.emailVerify,
 );
 
+/**
+ * GET/user/get-me
+ * @description : - get the current logged in user details
+ */
+userRouter.get("/get-me", userAuth, userController.userGetMe);
+
+userRouter.get("refreshToken", userController.genRefreshToken);
 export default userRouter;

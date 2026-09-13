@@ -57,5 +57,18 @@ userRouter.post(
  */
 userRouter.get("/get-me", userAuth, userController.userGetMe);
 
+
 userRouter.get("refreshToken", userController.genRefreshToken);
+
+
+/**
+ * POST /api/auth/forgetEmail
+ */
+userRouter.post("/forgetEmail", userController.forgetPassword);
+
+/**
+ * POST /api/auth/updatePassword
+ */
+userRouter.post("/updatePassword", userController.updatePassword);
+
 export default userRouter;

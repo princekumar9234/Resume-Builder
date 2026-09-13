@@ -43,8 +43,8 @@ const RegisterPage = () => {
             I agree to folio's Term & service and privacy policy
           </div>
           <button className="py-2 border bg-gray-200 font-bold mt-3 mb-4">
-            Create account{" "}
-          </button>{" "}
+            Create account
+          </button>
           <hr />
         </div>
         or continue with

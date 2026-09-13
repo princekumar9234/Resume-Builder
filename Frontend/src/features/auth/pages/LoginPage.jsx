@@ -16,7 +16,12 @@ const LoginPage = () => {
       <div className="flex flex-col gap-5">
         <div className=" items-baseline">
           <h2 className="text-4xl font-bold">Welcome Back</h2>
-          <p>New to filo ?<button className="ml-1 text-green-500 cursor-pointer">Create an Account</button> </p>
+          <p>
+            New to filo ?
+            <button className="ml-1 text-green-500 cursor-pointer">
+              Create an Account
+            </button>{" "}
+          </p>
         </div>
         <form onSubmit={handleFrom}>
           <div className="flex flex-col gap-1">
@@ -44,9 +49,11 @@ const LoginPage = () => {
             />
           </div>
           <div className="mb-3">
-            <button className=" cursor-pointer ml-62 text-red-700">forget password ?</button>
+            <button className=" cursor-pointer ml-62 text-red-700">
+              forget password ?
+            </button>
           </div>
-          <button className="border-2 w-full cursor-pointer font-bold py-2 text-lg bg-amber-100 mb-3">
+          <button className="border-2 w-full cursor-pointer font-bold py-2 text-lg bg-amber-100 mb-5">
             Login
           </button>
           <hr />
@@ -57,7 +64,7 @@ const LoginPage = () => {
               with Google
             </button>
             <button className=" cursor-pointer flex items-center gap-1 border px-24 py-2">
-              <img src={github} alt="github" height={20} width={22} /> Continue
+              <img src={github} alt="github" height={22} width={24} /> Continue
               with Github
             </button>
           </div>

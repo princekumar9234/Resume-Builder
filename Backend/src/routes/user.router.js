@@ -1,18 +1,24 @@
 import { Router } from "express";
 import * as userController from "../controllers/user.controller.js";
 import { authLimiter } from "../middleware/rateLimit.middleware.js";
+import { validateUser } from "../middleware/validation.middleware.js";
 
 const userRouter = Router();
 
 /**
  * UserRegister POST API localhost:3000/user/register
-* @param {string} username - The username of the user.
-    * @param {string} email - The email of the user.
-    * @param {string} password - The password of the user.  
-    * @returns {object} 201 - User registered successfully.
-    * @returns {object} 400 - Bad request. Username, email and password are required.
+ * @param {string} username - The username of the user.
+ * @param {string} email - The email of the user.
+ * @param {string} password - The password of the user.
+ * @returns {object} 201 - User registered successfully.
+ * @returns {object} 400 - Bad request. Username, email and password are required.
  */
-userRouter.post("/register",authLimiter, userController.userRegister);
+userRouter.post(
+  "/register",
+  authLimiter,
+  validateUser,
+  userController.userRegister,
+);
 
 /**
  * UserLogin POST API  localhost:3000/user/login
@@ -22,7 +28,7 @@ userRouter.post("/register",authLimiter, userController.userRegister);
  * @returns {object} 404 - User not found.
  * @returns {object} 400 - Invalid password.
  */
-userRouter.post("/login",authLimiter, userController.UserLogin);
+userRouter.post("/login", authLimiter, validateUser, userController.UserLogin);
 
 /**
  * UserLogout POST API  localhost:3000/user/emailVerify
@@ -32,6 +38,11 @@ userRouter.post("/login",authLimiter, userController.UserLogin);
  * @returns {object} 400 - Invalid OTP.
  */
 
-userRouter.post("/emailVerify", authLimiter, userController.emailVerify)
+userRouter.post(
+  "/emailVerify",
+  authLimiter,
+  validateUser,
+  userController.emailVerify,
+);
 
 export default userRouter;

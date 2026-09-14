@@ -1,8 +1,10 @@
 import Google from "../../../assets/google.png";
 import github from "../../../assets/github.png";
 import { useState } from "react";
+import { Link } from "react-router";
 
-const LoginPage = () => {
+const LoginPage = () => { 
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -19,8 +21,8 @@ const LoginPage = () => {
           <p>
             New to filo ?
             <button className="ml-1 text-green-500 cursor-pointer">
-              Create an Account
-            </button>{" "}
+              <Link to={"/register"}>Create an Account</Link>
+            </button>
           </p>
         </div>
         <form onSubmit={handleFrom}>

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import Google from "../../../assets/google.png";
 import github from "../../../assets/github.png";
+import { Link } from "react-router";
 
 const RegisterPage = () => {
+  use
   const [agreed, setAgreed] = useState(false);
   return (
     <main>
@@ -11,7 +13,9 @@ const RegisterPage = () => {
           <h1 className="text-4xl font-semibold">Start your first draft </h1>
           <p className="mt-1">
             Already have an account ?{" "}
-            <button className="text-green-600">Log In</button>
+            <button className="text-green-600">
+              <Link to={"/login"}>Log In</Link>
+            </button>
           </p>
         </div>
         <div className="flex flex-col">

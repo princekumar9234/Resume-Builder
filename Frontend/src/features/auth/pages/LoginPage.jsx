@@ -3,8 +3,7 @@ import github from "../../../assets/github.png";
 import { useState } from "react";
 import { Link } from "react-router";
 
-const LoginPage = () => { 
-  
+const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 

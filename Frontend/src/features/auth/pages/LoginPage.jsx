@@ -58,7 +58,7 @@ const LoginPage = () => {
             Login
           </button>
           <hr />
-          <p className="text-center py-3 ">or Continue with</p>
+          <p className="text-center py-3 ">or continue with</p>
           <div className="flex flex-col w-full items-center gap-2 text-center">
             <button className=" cursor-pointer flex items-center gap-1 border mt-2 py-2 px-24">
               <img src={Google} alt="Google" height={20} width={22} /> Continue

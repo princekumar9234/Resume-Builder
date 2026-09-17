@@ -71,15 +71,14 @@ const RegisterPage = () => {
             </button>
             <hr />
           </div>
-          or continue with
-          <div className=" ">
-            <button className="flex items-center gap-1 cursor-pointer bg-gray-100 font-bold  border py-2 px-22">
-              <img src={Google} alt="Google" width={20} /> Continue with Google
-            </button>
-            <button className="flex items-center cursor-pointer  bg-gray-100 font-bold  border py-2 px-22 mt-3 mb-10">
-              <img src={github} alt="github" width={24} /> Continue with Github
-            </button>
-          </div>
+          <div className="py-4  text-center">or continue with</div>
+
+          <button className="flex items-center gap-1 cursor-pointer bg-gray-100 font-bold  border py-2 px-22">
+            <img src={Google} alt="Google" width={20} /> Continue with Google
+          </button>
+          <button className="flex items-center cursor-pointer  bg-gray-100 font-bold  border py-2 px-22 mt-3 mb-10">
+            <img src={github} alt="github" width={24} /> Continue with Github
+          </button>
         </form>
       </div>
     </main>

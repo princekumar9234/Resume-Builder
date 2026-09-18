@@ -3,7 +3,7 @@ import React from 'react'
 const EmailVerify = () => {
   return (
     <main>
-        a
+        a 
     </main>
   )
 }

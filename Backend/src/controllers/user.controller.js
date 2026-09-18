@@ -7,7 +7,7 @@ import otpModel from "../models/otp.model.js";
 import jwt from "jsonwebtoken";
 import config from "../config/config.js";
 import sessionModel from "../models/session.model.js";
-import { decode } from "punycode";
+
 
 export async function userRegister(req, res) {
   const { username, email, password } = req.body;

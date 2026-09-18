@@ -47,3 +47,14 @@ export async function getMe() {
     console.log(error);
   }
 }
+
+export async function forgetPassword({ email }) {
+  try {
+    const response = await api.post("/user/forgetPassword", {
+      email,
+    });
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
+}

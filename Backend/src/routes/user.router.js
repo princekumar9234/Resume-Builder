@@ -64,7 +64,7 @@ userRouter.get("refreshToken", userController.genRefreshToken);
 /**
  * POST /api/auth/forgetEmail
  */
-userRouter.post("/forgetEmail", userController.forgetPassword);
+userRouter.post("/forgetPassword", userController.forgetPassword);
 
 /**
  * POST /api/auth/updatePassword

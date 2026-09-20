@@ -24,6 +24,7 @@ export const useAuth = () => {
       setUser(data.user);
     } catch (err) {
       console.log(err);
+      throw err;
     } finally {
       setLoading(false);
     }
@@ -47,7 +48,7 @@ export const useAuth = () => {
       const data = await emailVerify({ email, otp });
       setUser(data.user);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -68,6 +69,7 @@ export const useAuth = () => {
 
   useEffect(() => {
     const getAndSetUser = async () => {
+   
       const data = await getMe();
       setUser(data.user);
       setLoading(false);
@@ -82,11 +84,12 @@ export const useAuth = () => {
       setUser(null);
       return data;
     } catch (error) {
-      console.log(error)
+      console.log(error);
+      throw error;
     } finally {
       setLoading(false);
     }
-  };  
+  };
 
   const handleUpdatePassword = async ({ email, otp, newPassword }) => {
     setLoading(true);
@@ -94,7 +97,8 @@ export const useAuth = () => {
       const data = await updatePassword({ email, otp, newPassword });
       setUser(data.user);
     } catch (error) {
-      console.log(error)
+      console.log(error);
+      throw error;
     } finally {
       setLoading(false);
     }

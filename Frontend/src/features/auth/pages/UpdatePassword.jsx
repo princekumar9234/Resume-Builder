@@ -5,7 +5,7 @@ import { useAuth } from "../hooks/useAuth";
 const UpdatePassword = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { loading, updatePassword } = useAuth();
+  const { loading, handleUpdatePassword } = useAuth();
 
   // Agar login page se state me email aayi hai toh wo use hogi
   const [email, setEmail] = useState(location.state?.email || "");
@@ -19,16 +19,13 @@ const UpdatePassword = () => {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    setError("");
-    setSuccessMsg("");
 
     if (newPassword !== confirmPassword) {
       setError("New Password and Confirm Password do not match!");
       return;
     }
-    loading(true);
 
-    await updatePassword({ email, otp, newPassword });
+     await handleUpdatePassword({ email, otp, newPassword });
     setSuccessMsg("Congrulations your password is updated");
     navigate("/login");
   };

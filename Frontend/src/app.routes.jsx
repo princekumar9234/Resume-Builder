@@ -7,6 +7,8 @@ import Protected from "./features/auth/components/Protected";
 import UpdatePassword from "./features/auth/pages/UpdatePassword";
 import ForgetPassPage from "./features/auth/pages/ForgetPassPage.jsx";
 
+
+
 export const router = createBrowserRouter([
   {
     path: "/login",
@@ -25,6 +27,7 @@ export const router = createBrowserRouter([
     element: (
       <Protected>
         <HomePage />
+       
       </Protected>
     ),
   },

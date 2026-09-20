@@ -1,85 +1,148 @@
 import React, { useState } from "react";
-import Google from "../../../assets/google.png";
-import github from "../../../assets/github.png";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { Eye, EyeOff } from "lucide-react";
+import { useAuth } from "../hooks/useAuth";
+
 
 const RegisterPage = () => {
+  const { loading, handleRegister } = useAuth();
+  const navigate = useNavigate();
+
+  const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [username, setUserName] = useState("");
   const [agreed, setAgreed] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleForm = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("email", email, "password =", password, "username =", username);
+    setError("");
+
+    try {
+      await handleRegister({ username, email, password });
+      navigate("/verifyEmail", { state: { email } });
+    } catch (err) {
+      setError(err?.message || "Registration failed. Please try again.");
+    }
   };
+
   return (
-    <main>
-      <div className="flex flex-col items-center justify-center gap-2 mt-10">
-        <div>
-          <h1 className="text-4xl font-semibold">Start your first draft </h1>
-          <p className="mt-1">
-            Already have an account ?{" "}
-            <button className="text-green-600">
-              <Link to={"/login"}>Log In</Link>
-            </button>
+    <main className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-8">
+      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-md">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-gray-900">Create an Account</h1>
+          <p className="mt-2 text-sm text-gray-600">
+            Sign up to get started with your account.
           </p>
         </div>
-        <form onSubmit={handleForm}>
-          <div className="flex flex-col">
-            <label className=" text-bold ">Username</label>
+
+        {/* Error Alert */}
+        {error && (
+          <div className="p-3 text-sm text-red-700 bg-red-100 rounded-lg">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Username
+            </label>
             <input
-              onChange={(e) => {
-                setUserName(e.target.value);
-              }}
-              value={username}
-              className="px-3 py-2 border  opacity-80 bg-gray-100 outline-none  focus:outline-0 rounded"
               type="text"
-              placeholder="xyz"
+              value={username}
+              onChange={(e) => setUserName(e.target.value)}
+              placeholder="e.g. alexdoe"
+              required
+              className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-green-500"
             />
-            <label className="text-bold mt-5">Email address</label>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Email Address
+            </label>
             <input
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-              className="px-3 py-2 border bg-gray-100 opacity-80  outline-none   focus:outline-0 rounded"
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
+              required
+              className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-green-500"
             />
-            <label className=" text-bold  mt-5"> Password</label>
-            <input
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-              value={password}
-              className="px-3 py-2 bg-gray-100 border opacity-80 outline-none   focus:outline-0 rounded"
-              type="password"
-              placeholder="••••••••••"
-            />
-            <div className="text-l ">
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Password
+            </label>
+            <div className="relative mt-1">
               <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••••"
+                required
+                className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-green-500"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 cursor-pointer"
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+          </div>
+
+          <div className="flex items-start">
+            <div className="flex items-center h-5">
+              <input
+                id="terms"
                 type="checkbox"
                 checked={agreed}
                 onChange={(e) => setAgreed(e.target.checked)}
-                className="mt-3 mb-3 accent-[#0a0a0a] "
+                required
+                className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500 accent-green-600 cursor-pointer"
               />
-              I agree to folio's Term & service and privacy policy
             </div>
-            <button className="py-2 border cursor-pointer bg-gray-200 font-bold mt-3 mb-4">
-              Create account
-            </button>
-            <hr />
+            <label
+              htmlFor="terms"
+              className="ml-2 text-xs text-gray-600 cursor-pointer select-none"
+            >
+              I agree to the
+              <span className="font-semibold text-green-600 hover:underline">
+                Terms of Service
+              </span>
+              and
+              <span className="font-semibold text-green-600 hover:underline">
+                Privacy Policy
+              </span>
+            </label>
           </div>
-          <div className="py-4  text-center">or continue with</div>
 
-          <button className="flex items-center gap-1 cursor-pointer bg-gray-100 font-bold  border py-2 px-22">
-            <img src={Google} alt="Google" width={20} /> Continue with Google
-          </button>
-          <button className="flex items-center cursor-pointer  bg-gray-100 font-bold  border py-2 px-22 mt-3 mb-10">
-            <img src={github} alt="github" width={24} /> Continue with Github
+          <button
+            type="submit"
+            disabled={loading || !agreed}
+            className="w-full py-2.5 text-white font-medium bg-green-600 hover:bg-green-700 rounded-md transition duration-200 disabled:opacity-50 cursor-pointer shadow-sm"
+          >
+            {loading ? "Creating Account..." : "Create Account"}
           </button>
         </form>
+
+      
+         
+        {/* Footer Link */}
+        <div className="text-center text-sm text-gray-600">
+          Already have an account?{" "}
+          <Link
+            to="/login"
+            className="font-semibold text-green-600 hover:underline"
+          >
+            Log In
+          </Link>
+        </div>
       </div>
     </main>
   );

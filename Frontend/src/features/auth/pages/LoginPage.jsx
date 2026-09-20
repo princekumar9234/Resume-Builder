@@ -1,86 +1,112 @@
-import Google from "../../../assets/google.png";
-import github from "../../../assets/github.png";
-import { useState } from "react";
-import { Link } from "react-router";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router";
+import { Eye, EyeOff } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 
 const LoginPage = () => {
   const { loading, handleLogin } = useAuth();
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleFrom = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    handleLogin({ email, password });
+    setError("");
+
+    try {
+      const res = await handleLogin({ email, password });
+      navigate("/");
+      console.log(res);
+    } catch (err) {
+      setError(err?.message || "Login failed. Please try again.");
+    }
   };
 
-  if(loading){
-    return (
-      <main>
-        <h2>Loading.....</h2>
-      </main>
-    )
-  }
-
   return (
-    <main className="flex flex-col items-center mt-20">
-      <div className="flex flex-col gap-5">
-        <div className=" items-baseline">
-          <h2 className="text-4xl font-bold">Welcome Back</h2>
-          <p>
-            New to filo ?
-            <button className="ml-1 text-green-500 cursor-pointer">
-              <Link to={"/register"}>Create an Account</Link>
-            </button>
+    <main className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-8">
+      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-md">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-gray-900">Welcome Back</h1>
+          <p className="mt-2 text-sm text-gray-600">
+            Please enter your details to sign in.
           </p>
         </div>
-        <form onSubmit={handleFrom}>
-          <div className="flex flex-col gap-1">
-            <label>Email address</label>
+
+        {/* Error Alert */}
+        {error && (
+          <div className="p-3 text-sm text-red-700 bg-red-100 rounded-lg">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Email Address
+            </label>
             <input
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
+              type="email"
               value={email}
-              name="email"
-              type="text"
-              className="mb-3 focus:outline-0 py-2 px-3 border hover:outline-0 opacity-80 rounded "
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
-            />
-            <label>Password</label>
-            <input
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-              name="password"
-              value={password}
-              type="password"
-              className=" py-2 focus:outline-0 px-3 border hover:outline-0 opacity-80 rounded "
-              placeholder="••••••••••"
+              required
+              className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-green-500"
             />
           </div>
-          <div className="mb-3">
-            <button className=" cursor-pointer ml-62 text-red-700">
-              forget password ?
-            </button>
+
+          <div>
+            <div className="flex items-center justify-between">
+              <label className="block text-sm font-medium text-gray-700">
+                Password
+              </label>
+              <button
+                type="button"
+                className="text-xs font-semibold text-green-600 hover:underline cursor-pointer"
+              >
+                Forgot password?
+              </button>
+            </div>
+            <div className="relative mt-1">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••••"
+                required
+                className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-green-500"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 cursor-pointer"
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </div>
-          <button className="border-2 w-full cursor-pointer font-bold py-2 text-lg bg-amber-100 mb-5">
-            Login
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-2.5 text-white font-medium bg-green-600 hover:bg-green-700 rounded-md transition duration-200 disabled:opacity-50 cursor-pointer shadow-sm"
+          >
+            {loading ? "Signing in..." : "Log In"}
           </button>
-          <hr />
-          <p className="text-center py-3 ">or continue with</p>
-          <div className="flex flex-col w-full items-center gap-2 text-center">
-            <button className=" cursor-pointer flex items-center gap-1 border mt-2 py-2 px-24">
-              <img src={Google} alt="Google" height={20} width={22} /> Continue
-              with Google
-            </button>
-            <button className=" cursor-pointer flex items-center gap-1 border px-24 py-2">
-              <img src={github} alt="github" height={22} width={24} /> Continue
-              with Github
-            </button>
-          </div>
         </form>
+
+        {/* Footer Link */}
+        <div className="text-center text-sm text-gray-600">
+          New to our platform?{" "}
+          <Link
+            to="/register"
+            className="font-semibold text-green-600 hover:underline"
+          >
+            Create an Account
+          </Link>
+        </div>
       </div>
     </main>
   );

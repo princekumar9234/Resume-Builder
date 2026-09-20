@@ -2,15 +2,26 @@ import Google from "../../../assets/google.png";
 import github from "../../../assets/github.png";
 import { useState } from "react";
 import { Link } from "react-router";
+import { useAuth } from "../hooks/useAuth";
 
 const LoginPage = () => {
+  const { loading, handleLogin } = useAuth();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleFrom = (e) => {
+  const handleFrom = async (e) => {
     e.preventDefault();
-    (console.log("Email", email), console.log("password", password));
+    handleLogin({ email, password });
   };
+
+  if(loading){
+    return (
+      <main>
+        <h2>Loading.....</h2>
+      </main>
+    )
+  }
 
   return (
     <main className="flex flex-col items-center mt-20">

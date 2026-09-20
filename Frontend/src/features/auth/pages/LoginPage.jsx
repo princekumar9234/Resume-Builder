@@ -15,14 +15,17 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-
     try {
-      const res = await handleLogin({ email, password });
+      await handleLogin({ email, password });
       navigate("/");
-      console.log(res);
     } catch (err) {
       setError(err?.message || "Login failed. Please try again.");
     }
+  };
+
+  const forgetPassword = async () => {
+    setError("");
+    navigate("/forgetPassPage")
   };
 
   return (
@@ -63,6 +66,7 @@ const LoginPage = () => {
                 Password
               </label>
               <button
+                onClick={forgetPassword}
                 type="button"
                 className="text-xs font-semibold text-green-600 hover:underline cursor-pointer"
               >

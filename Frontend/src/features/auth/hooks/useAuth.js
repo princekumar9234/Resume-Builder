@@ -1,11 +1,13 @@
 import { useContext, useEffect } from "react";
-import { AuthContext } from "../auth.context";
+import { AuthContext } from "../Auth.context";
 import {
   login,
   register,
   logout,
-  // emailVerify,
+  emailVerify,
   getMe,
+  forgetPassword,
+  updatePassword,
 } from "../services/auth.api";
 
 export const useAuth = () => {
@@ -39,6 +41,18 @@ export const useAuth = () => {
     }
   };
 
+  const handleEmailVerify = async ({ email, otp }) => {
+    setLoading(true);
+    try {
+      const data = await emailVerify({ email, otp });
+      setUser(data.user);
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleLogout = async () => {
     setLoading(true);
     try {
@@ -61,11 +75,38 @@ export const useAuth = () => {
     getAndSetUser();
   }, []);
 
+  const handleForgetPassword = async ({ email }) => {
+    setLoading(false);
+    try {
+      const data = await forgetPassword({ email });
+      setUser(null);
+      return data;
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false);
+    }
+  };  
+
+  const handleUpdatePassword = async ({ email, otp, newPassword }) => {
+    setLoading(true);
+    try {
+      const data = await updatePassword({ email, otp, newPassword });
+      setUser(data.user);
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false);
+    }
+  };
   return {
     user,
     loading,
     handleLogin,
     handleLogout,
     handleRegister,
+    handleEmailVerify,
+    handleForgetPassword,
+    handleUpdatePassword,
   };
 };

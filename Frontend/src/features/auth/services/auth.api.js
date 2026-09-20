@@ -15,7 +15,7 @@ export async function register({ username, email, password }) {
 
     return response.data;
   } catch (error) {
-    console.log(error);
+    throw new error;
   }
 }
 
@@ -27,7 +27,7 @@ export async function emailVerify({ email, otp }) {
     });
     return response.data;
   } catch (error) {
-    console.log(error);
+   throw new error;
   }
 }
 
@@ -40,7 +40,7 @@ export async function login({ email, password }) {
 
     return response.data;
   } catch (error) {
-    console.log(error);
+    throw new error;
   }
 }
 
@@ -58,7 +58,7 @@ export async function getMe() {
     const response = await api.get("/user/get-me");
     return response.data;
   } catch (error) {
-    console.log(error);
+    throw new error;
   }
 }
 
@@ -69,7 +69,7 @@ export async function forgetPassword({ email }) {
     });
     return response.data;
   } catch (err) {
-    console.log(err);
+   throw new err;
   }
 }
 
@@ -82,7 +82,7 @@ export async function updatePassword({ email, otp, newPassword }) {
     });
     return response.data;
   } catch (error) {
-    console.log(error);
+    throw new error;
   }
 }
 
@@ -90,7 +90,7 @@ export async function refreshToken() {
   try {
     const response = await api.get("/user/refreshToken");
     return response.data;
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    throw new error;
   }
 }

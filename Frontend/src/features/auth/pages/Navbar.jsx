@@ -28,7 +28,7 @@ const Navbar = () => {
 
         {/* Hamburger Button */}
         <button
-          className="md:hidden w-10 h-10 flex items-center justify-center transform-none! filter-none! shadow-none! text-white"
+          className="md:hidden w-10 h-10 flex items-center justify-center transform-none! filter-none! shadow-none!"
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? <X size={30} /> : <Menu size={30} />}

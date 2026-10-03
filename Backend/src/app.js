@@ -6,6 +6,8 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import config from "./config/config.js";
 import helmet from "helmet";
+import interviewRoute from "./routes/interview.route.js";
+
 
 const app = express();
 app.use(helmet());
@@ -22,5 +24,6 @@ app.use(
 );
 
 app.use("/user", userRouter);
+app.use("/interview",interviewRoute);
 
 export default app;

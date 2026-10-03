@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { Eye, EyeOff } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
-import Navbar from "./Navbar";
 
 const LoginPage = () => {
   const { loading, handleLogin } = useAuth();
@@ -32,10 +31,9 @@ const LoginPage = () => {
     setError("");
     navigate("/forgetPassPage");
   };
-  
+
   return (
     <div>
-      <Navbar />
       <main className="mt-5 flex items-center justify-center bg-gray-50 px-4 py-8">
         <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-md">
           <div className="text-center">

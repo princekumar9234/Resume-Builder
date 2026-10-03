@@ -1,7 +1,7 @@
 import jwt, { decode } from "jsonwebtoken";
 import config  from "../config/config.js";
 
-export async function userAuth (req,res,next) {
+export async function userAuth(req,res,next) {
    const refreshToken = req.cookies.refreshToken;
 
    if(!refreshToken) {

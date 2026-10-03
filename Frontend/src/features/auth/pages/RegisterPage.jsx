@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { Eye, EyeOff } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
-import Navbar from "./Navbar";
-
 
 const RegisterPage = () => {
   const { loading, handleRegister } = useAuth();
@@ -30,124 +28,123 @@ const RegisterPage = () => {
 
   return (
     <div className="bg-gray-50">
-      <Navbar/>
-    <main className=" mt-6 flex items-center justify-center bg-gray-50 px-4 ">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-md">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900">Create an Account</h1>
-          <p className="mt-2 text-sm text-gray-600">
-            Sign up to get started with your account.
-          </p>
-        </div>
-
-        {/* Error Alert */}
-        {error && (
-          <div className="p-3 text-sm text-red-700 bg-red-100 rounded-lg">
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Username
-            </label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUserName(e.target.value)}
-              placeholder="e.g. alexdoe"
-              required
-              className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-green-500"
-            />
+      <main className=" mt-6 flex items-center justify-center bg-gray-50 px-4 ">
+        <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-md">
+          <div className="text-center">
+            <h1 className="text-3xl font-bold text-gray-900">
+              Create an Account
+            </h1>
+            <p className="mt-2 text-sm text-gray-600">
+              Sign up to get started with your account.
+            </p>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Email Address
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              required
-              className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-green-500"
-            />
-          </div>
+          {/* Error Alert */}
+          {error && (
+            <div className="p-3 text-sm text-red-700 bg-red-100 rounded-lg">
+              {error}
+            </div>
+          )}
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Password
-            </label>
-            <div className="relative mt-1">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Username
+              </label>
               <input
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••••"
+                type="text"
+                value={username}
+                onChange={(e) => setUserName(e.target.value)}
+                placeholder="e.g. alexdoe"
                 required
-                className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-green-500"
+                className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-green-500"
               />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 cursor-pointer"
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Email Address
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                required
+                className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-green-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Password
+              </label>
+              <div className="relative mt-1">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••••"
+                  required
+                  className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-green-500"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 cursor-pointer"
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+            </div>
+
+            <div className="flex items-start">
+              <div className="flex items-center h-5">
+                <input
+                  id="terms"
+                  type="checkbox"
+                  checked={agreed}
+                  onChange={(e) => setAgreed(e.target.checked)}
+                  required
+                  className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500 accent-green-600 cursor-pointer"
+                />
+              </div>
+              <label
+                htmlFor="terms"
+                className="ml-2 text-xs text-gray-600 cursor-pointer select-none"
               >
-                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-              </button>
+                I agree to the
+                <span className="font-semibold text-green-600 hover:underline">
+                  Terms of Service
+                </span>
+                and
+                <span className="font-semibold text-green-600 hover:underline">
+                  Privacy Policy
+                </span>
+              </label>
             </div>
-          </div>
 
-          <div className="flex items-start">
-            <div className="flex items-center h-5">
-              <input
-                id="terms"
-                type="checkbox"
-                checked={agreed}
-                onChange={(e) => setAgreed(e.target.checked)}
-                required
-                className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500 accent-green-600 cursor-pointer"
-              />
-            </div>
-            <label
-              htmlFor="terms"
-              className="ml-2 text-xs text-gray-600 cursor-pointer select-none"
+            <button
+              type="submit"
+              disabled={loading || !agreed}
+              className="w-full py-2.5 text-white font-medium bg-green-600 hover:bg-green-700 rounded-md transition duration-200 disabled:opacity-50 cursor-pointer shadow-sm"
             >
-              I agree to the
-              <span className="font-semibold text-green-600 hover:underline">
-                Terms of Service
-              </span>
-              and
-              <span className="font-semibold text-green-600 hover:underline">
-                Privacy Policy
-              </span>
-            </label>
+              {loading ? "Creating Account..." : "Create Account"}
+            </button>
+          </form>
+
+          {/* Footer Link */}
+          <div className="text-center text-sm text-gray-600">
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="font-semibold text-green-600 hover:underline"
+            >
+              Log In
+            </Link>
           </div>
-
-          <button
-            type="submit"
-            disabled={loading || !agreed}
-            className="w-full py-2.5 text-white font-medium bg-green-600 hover:bg-green-700 rounded-md transition duration-200 disabled:opacity-50 cursor-pointer shadow-sm"
-          >
-            {loading ? "Creating Account..." : "Create Account"}
-          </button>
-        </form>
-
-      
-         
-        {/* Footer Link */}
-        <div className="text-center text-sm text-gray-600">
-          Already have an account?{" "}
-          <Link
-            to="/login"
-            className="font-semibold text-green-600 hover:underline"
-          >
-            Log In
-          </Link>
         </div>
-      </div>
-    </main>
+      </main>
     </div>
   );
 };

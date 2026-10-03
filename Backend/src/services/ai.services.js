@@ -16,7 +16,7 @@ const interviewReportSchema = z.object({
     answer : z.string().describe("how to answer this question, what points to cover, what approach to take etc.")
   })).describe("technical questions that can be asked in the interview along with their intention and how to answer them")
 
-  ,behavioralQuestions : z.array(ai.object({
+  ,behavioralQuestions : z.array(z.object({
       question :z.string().describe("The technical question can be asked in the interview"),
     intention : z.string().describe("How intention of intreviewer behind asked this question"),
     answer : z.string().describe("how to answer this question, what points to cover, what approach to take etc.")

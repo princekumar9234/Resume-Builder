@@ -2,25 +2,20 @@ import React from 'react'
 
 const HomePage = () => {
   return (
-   
-      <main> 
-        <div className="flex flex-col  bg-black text-3xl" >
-            <div className="">
-            <textarea name="jobDescription"  id="jobDescription" placeholder="Enter job description details here..."></textarea>
-         </div>
-         <div className="">
-            <div className="flex">
-                <label htmlFor="resume" className='text-4xl bg-amber-400'>Upload resume</label>
-                <input type="file" name="resume" accept='.pdf'/>
-            </div>
-            <div className="flex ">
-                <label htmlFor="selfDescription">SelfDescription</label>
-                <textarea name="selfDescription" placeholder='Decsribe yourself'></textarea>
-            </div>
-         </div>
-         </div>
-      </main>
-    
+    <main> 
+      <div className="flex flex-col w-full">
+        <label htmlFor="jobDescription">jobDescription</label>
+        <textarea id="jobDescription" name="jobDescription" rows="10" cols="20"></textarea>
+      </div>
+      <div className="flex flex-col">
+       <div>
+         <label htmlFor="resume">resume</label>
+        <input type="file" accept='.pdf'/>
+        </div>
+       <label htmlFor="selfDescitption">selfDescitption</label>
+       <textarea name="jobDescription" rows="4" cols="50"></textarea>
+      </div>
+    </main>
   )
 }
 

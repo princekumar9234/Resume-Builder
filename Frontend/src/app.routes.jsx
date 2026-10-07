@@ -5,7 +5,7 @@ import EmailVerify from "./features/auth/pages/EmailVerify";
 import Protected from "./features/auth/components/Protected";
 import UpdatePassword from "./features/auth/pages/UpdatePassword";
 import ForgetPassPage from "./features/auth/pages/ForgetPassPage.jsx";
-import Home from "./features/Interview/pages/homePage.jsx";
+import Home from "./features/Interview/pages/HomePage.jsx";
 
 
 

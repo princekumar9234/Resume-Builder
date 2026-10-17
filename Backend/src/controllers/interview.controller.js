@@ -2,6 +2,9 @@ import { PDFParse } from "pdf-parse";
 import { generateInterviewReport } from "../services/ai.services.js";
 import interviewReportModel from "../models/interviewReport.model.js";
 
+/**
+ * @description controller to generate interview report based on user self description, resume and  jobDescritpion
+ */
 export async function genInterviewReportController(req, res) {
     /**
      * Use pdf pasre to read pdf texts
@@ -33,4 +36,29 @@ export async function genInterviewReportController(req, res) {
     message: "interview report generated successfully",
     interviewReport,
   });
+}
+
+/** 
+ * @description Controller to get interview report by in interviewId.
+ * 
+*/
+export async function genInterviewReportByIdController(req, res) {
+  const {interviewId} = req.params;
+
+  const interviewReport = await interviewReportModel.findOne({_id: interviewId, user : req.user.id});
+
+  if(!interviewReport){
+     return res.status(404).json({
+      message :"Interview report not found."
+     })
+  }
+
+  return res.status(200).json({
+    message:"interview report fetched successfully",
+    interviewReport
+  })
+}
+
+export async function getAllInterView(req,res){
+  
 }

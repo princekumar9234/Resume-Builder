@@ -6,6 +6,7 @@ import Protected from "./features/auth/components/Protected";
 import UpdatePassword from "./features/auth/pages/UpdatePassword";
 import ForgetPassPage from "./features/auth/pages/ForgetPassPage.jsx";
 import Home from "./features/Interview/pages/HomePage.jsx";
+import Interview from "./features/Interview/pages/Interview.jsx";
 
 
 
@@ -38,4 +39,8 @@ export const router = createBrowserRouter([
     path: "/forgetPassPage",
     element: <ForgetPassPage />,
   },
+   {
+        path : "/interview/:interviewId",
+        element :<Interview/>
+  }
 ]);

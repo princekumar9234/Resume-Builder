@@ -10,4 +10,7 @@ const interviewRoute = Router();
  */
 interviewRoute.post("/",userAuth,upload.single("resume"),interviewController.genInterviewReportController);
 
+
+interviewRoute.get("/report/:interviewId", userAuth, interviewController.genInterviewReportByIdController)
+
 export default interviewRoute;

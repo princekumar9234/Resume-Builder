@@ -10,12 +10,13 @@ const HomePage = () => {
      <div>
  <div className='flex flex-col'>
   <div className='flex flex-col'>
-    <label htmlFor="resume">resume</label>
-    <input type="file" accept='.pdf'/> 
+    <h2>Resume</h2>
+    <label htmlFor="resume" className="inline-block bg-gray-400 cursor-pointer rounded-md  px-4 py-2 text-white text-center">Upload Resume</label>
+    <input type="file"  id="resume" name="resume" accept=".pdf" className="hidden" placeholder='Upload resume'/> 
   </div>
       <div className='flex  flex-col'>
         <label htmlFor="selfDescirption">selfDescirption</label>
-      <textarea rows='13' cols='27' className='border focus:outline-none p-2'></textarea>
+      <textarea rows='12' cols='27' className='border focus:outline-none p-2'></textarea>
       </div>
       <button className='border-none py-2 px-3 bg-red-600 mt-2 font-bold text-gray-20 rounded-2xl'>Generate interview report</button>
      </div> 

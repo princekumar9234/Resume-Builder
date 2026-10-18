@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router";
 import { Eye, EyeOff, Lock, Mail, User, ArrowRight, Loader2, Sparkles, AlertCircle } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 

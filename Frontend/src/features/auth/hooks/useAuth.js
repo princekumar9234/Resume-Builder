@@ -37,6 +37,7 @@ export const useAuth = () => {
       setUser(data.user);
     } catch (err) {
       console.log(err);
+      throw err;
     } finally {
       setLoading(false);
     }
@@ -84,10 +85,9 @@ export const useAuth = () => {
   }, []);
 
   const handleForgetPassword = async ({ email }) => {
-    setLoading(false);
+    setLoading(true);
     try {
       const data = await forgetPassword({ email });
-      setUser(null);
       return data;
     } catch (error) {
       console.log(error);

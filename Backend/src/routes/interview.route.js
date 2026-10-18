@@ -5,12 +5,24 @@ import { upload } from "../middleware/file.middleware.js";
 const interviewRoute = Router();
 
 /**
- *  POST/interview/ 
+ *  POST/interview/interview 
  * @description generate new interview report on the basic of user selfDescription, reumse and jobDescription
  */
-interviewRoute.post("/",userAuth,upload.single("resume"),interviewController.genInterviewReportController);
+interviewRoute.post("/interview",userAuth,upload.single("resume"),interviewController.genInterviewReportController);
 
+/**
+ * @route GET /interview/report/:interviewId
+ * @description get all interview reports of logged in user.
+ * @access private
+ */
+interviewRoute.get("/report/:interviewId", userAuth, interviewController.genInterviewReportByIdController);
 
-interviewRoute.get("/report/:interviewId", userAuth, interviewController.genInterviewReportByIdController)
+/**
+ * @route GET /interview/
+ * @description get all interview reports of logged in user.
+ * @access private
+ */
+interviewRoute.get("/", userAuth, interviewController.getAllInterViewReport)
+
 
 export default interviewRoute;

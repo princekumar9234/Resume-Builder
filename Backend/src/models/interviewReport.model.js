@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+
+
 /**
  * Subschema of Interview Report Schema
  */
@@ -143,6 +145,10 @@ const interviewReportSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+    },
+     tittle: {
+         type : String,
+         required :[ true , "job tittle is required"]
     },
   },
   {

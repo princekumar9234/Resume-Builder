@@ -59,6 +59,12 @@ export async function genInterviewReportByIdController(req, res) {
   })
 }
 
-export async function getAllInterView(req,res){
-  
+export async function getAllInterViewReport(req,res) {
+  const interviewReports = await interviewReportModel.find({user : req.user._id}).sort({createdAt : -1})
+  .select("-resume -selfDescription -jobDescription -_v -technicalQuestions -behavioralQuestions -skillGaps -preprationPlan")
+
+  res.status(200).json({
+    message : "interview reports fetched successfully",
+    interviewReports
+  })
 }

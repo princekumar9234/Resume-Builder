@@ -1,7 +1,41 @@
 @import "tailwindcss";
 
 body {
-  font-family: fraunces;
-  background-color: rgb(253, 250, 250);
-  color: rgb(0, 0, 0);
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: #faf8f5;
+  color: #171717;
+  min-height: 100vh;
 }
+
+/* Hide all third-party browser extensions (like Careerflow) injected outside #root */
+body > :not(#root):not(script):not(style) {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  width: 0 !important;
+  max-height: 0 !important;
+  overflow: hidden !important;
+  position: absolute !important;
+  top: -99999px !important;
+  left: -99999px !important;
+  z-index: -99999 !important;
+}
+
+[id*="careerflow" i],
+[class*="careerflow" i],
+[id*="copilot" i],
+[class*="copilot" i],
+#careerflow-extension-root,
+#careerflow-sidebar-container,
+.careerflow-widget {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+}
+
+
+

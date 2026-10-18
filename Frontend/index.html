@@ -4,7 +4,44 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>package.json</title>
+    <title>Interview Prep AI - Generate Your Interview Report</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      (function() {
+        function removeInjectedExtensions() {
+          if (!document.body) return;
+          var children = document.body.children;
+          for (var i = children.length - 1; i >= 0; i--) {
+            var el = children[i];
+            if (el.id !== 'root' && el.tagName !== 'SCRIPT' && el.tagName !== 'STYLE' && el.tagName !== 'LINK') {
+              el.remove();
+            }
+          }
+          var targets = document.querySelectorAll('[id*="careerflow" i], [class*="careerflow" i], [alt*="Careerflow" i], [alt*="hello" i], [alt*="Premium" i]');
+          targets.forEach(function(t) {
+            if (t.id !== 'root' && !t.closest('#root')) {
+              t.remove();
+            }
+          });
+        }
+
+        var observer = new MutationObserver(function() {
+          removeInjectedExtensions();
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+          removeInjectedExtensions();
+          if (document.body) {
+            observer.observe(document.body, { childList: true, subtree: true });
+          }
+        });
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

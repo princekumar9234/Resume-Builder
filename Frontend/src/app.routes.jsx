@@ -40,7 +40,12 @@ export const router = createBrowserRouter([
     element: <ForgetPassPage />,
   },
    {
-        path : "/interview/:interviewId",
-        element :<Interview/>
-  }
-]);
+     path: "/interview/:interviewId",
+     element: (
+       <Protected>
+         <Interview />
+       </Protected>
+     ),
+   },
+ ]);
+

@@ -463,16 +463,6 @@ const Interview = () => {
           </section>
         )}
 
-        {/* Footer Action */}
-        <div className="mt-12 text-center">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#b91032] hover:bg-[#a10d2b] text-white font-semibold rounded-2xl shadow-sm transition"
-          >
-            <span>Prepare Another Interview</span>
-            <Sparkles size={18} />
-          </Link>
-        </div>
       </main>
     </div>
   );

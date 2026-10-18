@@ -148,17 +148,6 @@ const EmailVerify = () => {
               )}
             </button>
           </form>
-
-          {/* Footer Link */}
-          <div className="mt-6 pt-5 border-t border-neutral-100 text-center text-xs sm:text-sm text-neutral-500">
-            Already verified?{" "}
-            <Link
-              to="/login"
-              className="font-bold text-[#b91032] hover:underline"
-            >
-              Sign in
-            </Link>
-          </div>
         </div>
       </div>
     </div>

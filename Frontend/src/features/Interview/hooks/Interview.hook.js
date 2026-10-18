@@ -2,8 +2,9 @@ import {
   genInterviewReport,
   getInterviewByIdReport,
   getAllInterViewReport,
+  downloadResumePdf,
 } from "../services/interview.api";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { InterviewContext } from "../Interview.content";
 
 export const useInterview = () => {
@@ -60,9 +61,33 @@ export const useInterview = () => {
     }
   };
 
+  const [downloadingResume, setDownloadingResume] = useState(false);
+
+  const handleDownloadResumePdf = async (interviewReportId) => {
+    setDownloadingResume(true);
+    try {
+      const blobData = await downloadResumePdf(interviewReportId);
+      const blob = new Blob([blobData], { type: "application/pdf" });
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = downloadUrl;
+      link.setAttribute("download", `tailored_resume_${interviewReportId}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(downloadUrl);
+    } catch (err) {
+      console.log(err);
+      throw err;
+    } finally {
+      setDownloadingResume(false);
+    }
+  };
+
   return {
     loading,
     setLoading,
+    downloadingResume,
     report,
     setReport,
     reports,
@@ -70,7 +95,7 @@ export const useInterview = () => {
     handleGenReport,
     handleGetReportById,
     handleGetAllReports,
+    handleDownloadResumePdf,
   };
 };
-
-export const userInterview = useInterview;
+

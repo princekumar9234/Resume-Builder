@@ -54,4 +54,22 @@ export const getAllInterViewReport = async () => {
     console.log(err);
     throw err;
   }
-};
+};
+
+/**
+ * @description service to download generated resume PDF based on interview report.
+ */
+export const downloadResumePdf = async (interviewReportId) => {
+  try {
+    const response = await interviewApi.post(
+      `/interview/resume/pdf/${interviewReportId}`,
+      {},
+      { responseType: "blob" }
+    );
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+

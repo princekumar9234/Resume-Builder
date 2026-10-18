@@ -22,7 +22,13 @@ interviewRoute.get("/report/:interviewId", userAuth, interviewController.genInte
  * @description get all interview reports of logged in user.
  * @access private
  */
-interviewRoute.get("/", userAuth, interviewController.getAllInterViewReport)
+interviewRoute.get("/", userAuth, interviewController.getAllInterViewReport);
 
+/**
+ * @route POST /interview/resume/pdf/:interviewReportId
+ * @description generate resume pdf on the basis of user self description, resume content and job description.
+ * @access private
+ */
+interviewRoute.post("/resume/pdf/:interviewReportId", userAuth, interviewController.generateResumePdfController);
 
-export default interviewRoute;
+export default interviewRoute;

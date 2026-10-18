@@ -1,6 +1,7 @@
 import { PDFParse } from "pdf-parse";
-import { generateInterviewReport } from "../services/ai.services.js";
+import { generateInterviewReport, generateResumePdf } from "../services/ai.services.js";
 import interviewReportModel from "../models/interviewReport.model.js";
+
 
 /**
  * @description controller to generate interview report based on user self description, resume and jobDescription
@@ -17,13 +18,11 @@ export async function genInterviewReportController(req, res) {
     }
 
     /**
-     * Use pdf parse to read pdf texts
+     * Use pdf-parse to read pdf text from the uploaded buffer
      */
     let resumeContent = "";
     try {
-      const parser = new PDFParse({
-        data: new Uint8Array(req.file.buffer),
-      });
+      const parser = new PDFParse({ data: req.file.buffer, verbosity: 0 });
       const result = await parser.getText();
       resumeContent = result.text || "";
     } catch (parseErr) {
@@ -99,4 +98,37 @@ export async function getAllInterViewReport(req, res) {
     res.status(500).json({ message: err.message || "Failed to fetch interview reports" });
   }
 }
+
+/**
+ * @description Controller to generate resume PDF based on user self description, resume and job description.
+ */
+export async function generateResumePdfController(req, res) {
+  try {
+    const { interviewReportId } = req.params;
+
+    const interviewReport = await interviewReportModel.findById(interviewReportId);
+
+    if (!interviewReport) {
+      return res.status(404).json({
+        message: "Interview report not found.",
+      });
+    }
+
+    const resume = interviewReport.resumeText || interviewReport.resume || "";
+    const { jobDescription, selfDescription } = interviewReport;
+
+    const pdfBuffer = await generateResumePdf({ resume, jobDescription, selfDescription });
+
+    res.set({
+      "Content-Type": "application/pdf",
+      "Content-Disposition": `attachment; filename=resume_${interviewReportId}.pdf`,
+    });
+
+    res.send(pdfBuffer);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: err.message || "Failed to generate resume PDF" });
+  }
+}
+
 

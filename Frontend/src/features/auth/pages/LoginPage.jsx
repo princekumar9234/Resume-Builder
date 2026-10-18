@@ -148,17 +148,6 @@ const LoginPage = () => {
               )}
             </button>
           </form>
-
-          {/* Footer Link */}
-          <div className="mt-6 pt-5 border-t border-neutral-100 text-center text-xs sm:text-sm text-neutral-500">
-            Don't have an account yet?{" "}
-            <Link
-              to="/register"
-              className="font-bold text-[#b91032] hover:underline"
-            >
-              Create an account
-            </Link>
-          </div>
         </div>
       </div>
     </div>
